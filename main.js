@@ -84,6 +84,6 @@ fileopen.addEventListener('change', function() {
 
 window.onbeforeunload = function() {
     if (elem.value !== "") {
-        return "You have unsaved changes on this page. Do you want to leave this page and discard your changes or stay on this page?";
+        return "Changes you made may not be saved.";
     }
 }
