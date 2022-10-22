@@ -28,7 +28,7 @@ const fileopen = document.querySelector('input.fileopen');
 
 function resize() {
     elem.setAttribute('style', '');
-    elem.setAttribute('style', ['width: ', getWidth(), 'px; height: ', getHeight(), 'px'].join(''));
+    elem.setAttribute('style', ['width: ', getWidth(), 'px; height: ', getHeight()-16, 'px'].join(''));
 }
 
 function filediag(textToWrite, fileNameToSaveAs) {
