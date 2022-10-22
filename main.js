@@ -87,3 +87,5 @@ window.onbeforeunload = function() {
         return "Changes you made may not be saved.";
     }
 }
+
+console.log('Ctrl+O to open a file\nCtrl+S to save a file')
