@@ -25,16 +25,17 @@ function getHeight() {
 
 const elem = document.querySelector('textarea.edit');
 const fileopen = document.querySelector('input.fileopen');
+const filename = document.querySelector('input.filename');
 
 function resize() {
     elem.setAttribute('style', '');
-    elem.setAttribute('style', ['width: ', getWidth(), 'px; height: ', getHeight()-16, 'px'].join(''));
+    elem.setAttribute('style', ['width: ', getWidth()-40, 'px; height: ', getHeight()-82, 'px'].join(''));
 }
 
 function filediag(textToWrite, fileNameToSaveAs) {
     var blobba = new Blob([textToWrite], {type: lookup(fileNameToSaveAs) || 'text/plain'});
     var link = document.createElement("a");
-    console.log(fileNameToSaveAs.indexOf("."));
+    //console.log(fileNameToSaveAs.indexOf("."));
     if (fileNameToSaveAs.indexOf(".") === -1) {
         fileNameToSaveAs = [fileNameToSaveAs, ".txt"].join('');
     };
@@ -46,7 +47,9 @@ function filediag(textToWrite, fileNameToSaveAs) {
         window.navigator.msSaveOrOpenBlob(blobba, fileNameToSaveAs);
     } else {
         link.href = window.URL.createObjectURL(blobba);
-        link.onclick = destroyClickedElement;
+        link.onclick = function(event) {
+            document.body.removeChild(event.target);
+        }
         link.style.display = "none";
         document.body.appendChild(link);
     }
@@ -54,22 +57,25 @@ function filediag(textToWrite, fileNameToSaveAs) {
     link.click();
 }
 
-function destroyClickedElement(event)
-{
-    document.body.removeChild(event.target);
+function getfname() {
+    if (!(filename.value == '')) {
+        return filename.value;
+    } else {
+        return prompt("Please name the file", "*");
+    }
 }
 
 document.onkeydown = function (e) {
     const ctrl = (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
     if (e.keyCode == 83 && ctrl) {
         e.preventDefault();
-        filediag(elem.value, window.prompt("Please name the file", "*"));
+        filediag(elem.value, getfname());
     } else if (e.keyCode == 79 && ctrl) {
         e.preventDefault();
         fileopen.click();
-    } else if (e.keyCode == 78 && ctrl) {
+    } else if (e.keyCode == 78 && ctrl && e.altKey) {
         e.preventDefault();
-        window.open(location.href, '_blank');
+        window.open(location.href);
     }
 }
 
@@ -82,10 +88,30 @@ fileopen.addEventListener('change', function() {
     GetFile.readAsText(this.files[0]);
 });
 
+elem.addEventListener('change', function() {
+    undoable.setValue(elem.value);
+});
+
 window.onbeforeunload = function() {
     if (elem.value !== "") {
         return "Changes you made may not be saved.";
     }
 }
 
-console.log('Ctrl+O to open a file\nCtrl+S to save a file')
+document.querySelector("img#new").addEventListener("mouseup", function() {
+    window.open(location.href);
+});
+
+document.querySelector("img#save").addEventListener("mouseup", function() {
+    filediag(elem.value, getfname());
+});
+
+document.querySelector("img#undo").addEventListener("mouseup", function() {
+    document.execCommand("undo");
+});
+
+document.querySelector("img#redo").addEventListener("mouseup", function() {
+    document.execCommand("redo");
+});
+
+console.log('%c📄 Ctrl+O to open a file\n💾 Ctrl+S to save a file', 'font-size: x-large; font-family: cursor, monospace; font-weight: bold;')

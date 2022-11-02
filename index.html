@@ -3,17 +3,40 @@
 <head>
     <title>Notepad</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <style>textarea.edit { border: none; overflow: auto; outline: none; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; font-family: cursor, monospace }</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <style>
+    textarea.edit { border: none; overflow: auto; outline: none; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; font-family: cursor, monospace; resize: none }
+    input.filename { position: absolute; border-color: transparent; border: 1px solid transparent; border-radius: 2px!important; font-size: 18px; font-variant-ligatures: no-contextual; height: 22px; line-height: 24px; margin: 0; min-width: 1px; padding: 2px 7px; width: 40%; }
+    input.filename:hover { border-color: rgb(55, 60, 62); }
+    input.filename:focus { border-color: #004daa; outline: none }
+    hr { border: none; border-top: groove; color: #333; overflow: visible; height: 5px }
+    hr:after { background: #fff; padding: 0 4px; position: relative; top: -13px; }
+    img.icon { user-select: none; padding-right: 3px; width: 16px }
+    div.sidenav { width: 32px; position: fixed; z-index: 1; top: 20px; left: 10px; background: #eee; overflow-x: hidden; padding: 8px 0; }
+    div.sidenav img { padding: 6px 8px 6px 8px; text-decoration: none; font-size: 25px; color: #2196F3; display: block; } div.sidenav img:hover { background-color: #064579; }
+    div.script {margin-left: 43.5px}
+    ::-webkit-scrollbar {display: none}
+    @media screen and (max-height: 450px) { div.sidenav {padding-top: 15px;} }
+    </style>
     <style class="text-props">textarea.edit {font-size: 15px}</style>
+    <noscript><style>div.script { display: none }</style></noscript>
 </head>
-<body onload="resize()" onresize="resize()">
+<body onresize="resize()">
+    <div class="script">
+    <div><img class="icon" src="./icons/note.png" style="width: 32px!important"><input class="filename" type="text" value="Untitled"></div>
+    <div class="sidenav"><img class="icon" id="new" src="./icons/new.png"><img class="icon" id="save" src="./icons/save.png"><img class="icon" id="undo" src="./icons/undo.png"><img class="icon" id="redo" src="./icons/redo.png"></div>
+    <hr>
     <textarea class="edit" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="width: 100px; height: 100px"></textarea>
+    </div>
     <input class="fileopen" type="file" accept="text/plain; *" style="display: none" />
     <script> var exports = {}; </script>
     <script src="./mimetype.js"></script>
     <script src="./main.js"></script>
+    <script>setTimeout(function() {resize(); elem.focus()}, 425);</script>
+    <noscript>
+    <h1 class="noscript" style="position: absolute; font-family: cursor, monospace;">Please enable JavaScript to view this page</h1>
+    </noscript>
 </body>
 </html>
