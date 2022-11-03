@@ -130,6 +130,9 @@ function closeDragElement() {
     document.onmousemove = null;
 }
 
+filename.addEventListener("change", function() {
+    title.innerHTML = `${filename.value} - Notepad`
+});
 
 document.querySelector("img#new").addEventListener("mouseup", function() {
     window.open(location.href);
@@ -147,4 +150,5 @@ document.querySelector("img#redo").addEventListener("mouseup", function() {
     document.execCommand("redo");
 });
 
+title.innerHTML = `${filename.value} - Notepad`
 console.log('%c📄 Ctrl+O to open a file\n💾 Ctrl+S to save a file', 'font-size: x-large; font-family: cursor, monospace; font-weight: bold;')
