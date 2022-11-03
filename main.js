@@ -26,10 +26,12 @@ function getHeight() {
 const elem = document.querySelector('textarea.edit');
 const fileopen = document.querySelector('input.fileopen');
 const filename = document.querySelector('input.filename');
+const sidenav = document.querySelector('div.sidenav');
+const title = document.querySelector('title')
 
 function resize() {
     elem.setAttribute('style', '');
-    elem.setAttribute('style', ['width: ', getWidth()-40, 'px; height: ', getHeight()-82, 'px'].join(''));
+    elem.setAttribute('style', ['width: ', getWidth(), 'px; height: ', getHeight()-85, 'px'].join(''));
 }
 
 function filediag(textToWrite, fileNameToSaveAs) {
@@ -82,21 +84,52 @@ document.onkeydown = function (e) {
 // https://stackoverflow.com/a/68589305
 fileopen.addEventListener('change', function() {
     var GetFile = new FileReader();
-    GetFile.onload=function(){
+    GetFile.onload = function() {
         elem.value = GetFile.result;
     }
     GetFile.readAsText(this.files[0]);
-});
-
-elem.addEventListener('change', function() {
-    undoable.setValue(elem.value);
+    filename.value = this.value.rsplit(navigator.platform.match("Win") ? '\\' : '/', 1)[1];
 });
 
 window.onbeforeunload = function() {
-    if (elem.value !== "") {
+    if (elem.value !== '') {
         return "Changes you made may not be saved.";
     }
 }
+
+var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+const header = document.querySelector("div.header")
+if (header) {
+    header.onmousedown = dragMouseDown;
+} else {
+    sidenav.onmousedown = dragMouseDown;
+}
+
+function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+}
+
+function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    sidenav.style.top = (sidenav.offsetTop - pos2) + "px";
+    sidenav.style.left = (sidenav.offsetLeft - pos1) + "px";
+}
+
+function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+}
+
 
 document.querySelector("img#new").addEventListener("mouseup", function() {
     window.open(location.href);
