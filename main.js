@@ -2,26 +2,12 @@ String.prototype.rsplit = function(sep, maxsplit) {
     var split = this.split(sep);
     return maxsplit ? [ split.slice(0, -maxsplit).join(sep) ].concat(split.slice(-maxsplit)) : split;
 }
-  
-function getHeight() {
-    return Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.offsetHeight,
-        document.documentElement.clientHeight
-    );
-}
 
 const elem = document.querySelector('textarea.edit');
 const fileopen = document.querySelector('input.fileopen');
 const filename = document.querySelector('input.filename');
 const sidenav = document.querySelector('div.sidenav');
-const title = document.querySelector('title')
-
-function resize() {
-    elem.style.height = [getHeight()-85, 'px'].join('');
-}
+const title = document.querySelector('title');
 
 function filediag(textToWrite, fileNameToSaveAs) {
     var blobba = new Blob([textToWrite], {type: lookup(fileNameToSaveAs) || 'text/plain'});
