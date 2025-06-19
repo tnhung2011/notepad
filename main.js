@@ -2,16 +2,6 @@ String.prototype.rsplit = function(sep, maxsplit) {
     var split = this.split(sep);
     return maxsplit ? [ split.slice(0, -maxsplit).join(sep) ].concat(split.slice(-maxsplit)) : split;
 }
-
-function getWidth() {
-    return Math.min(
-        document.body.scrollWidth,
-        document.documentElement.scrollWidth,
-        document.body.offsetWidth,
-        document.documentElement.offsetWidth,
-        document.documentElement.clientWidth
-    );
-}
   
 function getHeight() {
     return Math.max(
@@ -30,8 +20,7 @@ const sidenav = document.querySelector('div.sidenav');
 const title = document.querySelector('title')
 
 function resize() {
-    elem.setAttribute('style', '');
-    elem.setAttribute('style', ['width: ', getWidth(), 'px; height: ', getHeight()-85, 'px'].join(''));
+    elem.style.height = [getHeight()-85, 'px'].join('');
 }
 
 function filediag(textToWrite, fileNameToSaveAs) {
